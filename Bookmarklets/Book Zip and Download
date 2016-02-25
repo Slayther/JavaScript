@@ -1,0 +1,378 @@
+javascript: (function() {
+	
+	function minimalize(str) {
+		return str.toLowerCase().replace(/[^a-z\d\n]/g, '');
+	}
+	
+	var titleList = "100 Principles of Game Design.pdf\n" +
+"3D Game Programming All in One, Third Edition.pdf\n" +
+"A Game As Old As Empire.pdf\n" +
+"AI Game Engine Programming.pdf\n" +
+"AI Game Programming Wisdom 4.pdf\n" +
+"Android Game Programming by Example.pdf\n" +
+"Animating 2D Characters For Games In Blendert.pdf\n" +
+"Beginning C++ Through Game Programming, Fourth Edition.pdf\n" +
+"Beginning DirectXR11 Game Programming.pdf\n" +
+"Beginning Game Programming, Fourth Edition.pdf\n" +
+"Beginning Java Game Development with LibGDX.pdf\n" +
+"Best of Game Programming Gems.pdf\n" +
+"Better by the Bundle_.pdf\n" +
+"Blueprints Visual Scripting for Unreal Engine.pdf\n" +
+"Breaking into the Game Industry_ Advice for a Successful Career from Those Who Have Done It.pdf\n" +
+"Build an HTML5 Game.pdf\n" +
+"Build iOS Games with Sprite Kit.pdf\n" +
+"Build Your Own 2D Game Engine and Create Great Web Games_ Using HTML5, JavaScript, and WebGL.pdf\n" +
+"Building a Game with Unity and Blender.pdf\n" +
+"Building an FPS Game with Unity.pdf\n" +
+"C# Game Programming Cookbook for Unity 3D.pdf\n" +
+"C# Game Programming_ For Serious Game Creation.pdf\n" +
+"Challenges for Game Designers.pdf\n" +
+"Character Development and Storytelling for Games, Second Edition.pdf\n" +
+"Cheating Online Games.pdf\n" +
+"Clockwork Game Design.pdf\n" +
+"Cocos2d-x by Example _ Beginner's Guide - Second Edition.pdf\n" +
+"Cocos2d-x Cookbook.pdf\n" +
+"Cocos2d-x Game Development Blueprints.pdf\n" +
+"Construct 2 Game Development by Example.pdf\n" +
+"Core Techniques and Algorithms in Game Programming.pdf\n" +
+"CryENGINE 3 Cookbook.pdf\n" +
+"CryENGINE Game Programming with C++, C#, and Lua.pdf\n" +
+"Data Structures and Algorithms for Game Developers.pdf\n" +
+"Designing Games.pdf\n" +
+"DirectX 11.pdf\n" +
+"Eight Great Ways to Get the Most from Your Zune.pdf\n" +
+"xtending Unity with Editor Scripting.pdf\n" +
+"Fantastic Minecraft Structural Designs, Farms, and Furnishings.pdf\n" +
+"Fundamental 2D Game Programming with Javat.pdf\n" +
+"Fundamentals of Game Design, Third Edition.pdf\n" +
+"Fundamentals of Puzzle and Casual Game Design.pdf\n" +
+"Game AI Pro 2.pdf\n" +
+"Game Coding Complete, Fourth Edition.pdf\n" +
+"ame Design Essentials.pdf\n" +
+"Game Development with Three.pdf\n" +
+"Game Programming Algorithms and Techniques_ A Platform-Agnostic Approach.pdf\n" +
+"Game Programming All in One, Third Edition.pdf\n" +
+"Game Programming Gems 7.pdf\n" +
+"Game Programming Gems 8.pdf\n" +
+"Game Theory Framework Applied to Wireless Communication Networks.pdf\n" +
+"Games, Design and Play_ A detailed approach to iterative game design.pdf\n" +
+"Gender and Competition_ What Companies Need to Know.pdf\n" +
+"Getting Started with Unity 5.pdf\n" +
+"How to Cheat in Unity 5.pdf\n" +
+"HTML5 Game Development by Example _ Beginner's Guide - Second Edition.pdf\n" +
+"HTML5 Game Development HOTSHOT.pdf\n" +
+"HTML5 Game Development Insights.pdf\n" +
+"HTML5 Game Engines.pdf\n" +
+"International Journal of Artificial Life Research (IJALR) Volume 4, Issue 1.pdf\n" +
+"Introduction to Game Design, Prototyping, and Development_ From Concept to Playable Game with Unity and C#.pdf\n" +
+"iOS 9 Game Development Essentials.pdf\n" +
+"iOS Game Development By Example.pdf\n" +
+"Kodu for Kids_ The Official Guide to Creating Your Own Video Games.pdf\n" +
+"Land of Lisp.pdf\n" +
+"Learn 2D Game Development with C#.pdf\n" +
+"Learn C++ for Game Development.pdf\n" +
+"Learn Pixi.pdf\n" +
+"Learn to Program with Minecraft Plugins, 2nd Edition.pdf\n" +
+"Learn Unity 3D Programming with UnityScript_ Unity's JavaScript for Beginners.pdf\n" +
+"Learning 2D Game Development with UnityR_ A Hands-On Guide to Game Creation.pdf\n" +
+"Learning C# by Developing Games with Unity 3D Beginner's Guide.pdf\n" +
+"Learning C# Programming with Unity 3D.pdf\n" +
+"Learning Cocos2d-JS Game Development.pdf\n" +
+"Learning Cocos2d-x Game Development.pdf\n" +
+"Learning HTML5 Game Programming_ Build Online Games with Canvas, SVG, and WebGL.pdf\n" +
+"Learning LibGDX Game Development - Second Edition.pdf\n" +
+"Learning Libgdx Game Development.pdf\n" +
+"Learning Unity 2D Game Development by Example.pdf\n" +
+"Learning Unity Android Game Development.pdf\n" +
+"Learning Unity iOS Game Development.pdf\n" +
+"Libgdx Cross-platform Game Development Cookbook.pdf\n" +
+"LibGDX Game Development By Example.pdf\n" +
+"LibGDX Game Development Essentials.pdf\n" +
+"Lua Game Development Cookbook.pdf\n" +
+"Make a 2D Arcade Game in a Weekend_ With Unity.pdf\n" +
+"Make a 2D RPG in a Weekend_ With RPG Maker VX Ace.pdf\n" +
+"Mastering iOS Game Development.pdf\n" +
+"Mastering LibGDX Game Development.pdf\n" +
+"Mastering Sublime Text.pdf\n" +
+"Mastering Unity 2D Game Development.pdf\n" +
+"Mastering Unity Scripting.pdf\n" +
+"Mathematics and Physics for Programmers, Second Edition.pdf\n" +
+"Mathematics for 3D Game Programming and Computer Graphics, Third Edition.pdf\n" +
+"Minecraft Modding For Kids For Dummies.pdf\n" +
+"Minecraft Modding with Forge.pdf\n" +
+"Minecraft Mods Programming Absolute Beginner's Guide.pdf\n" +
+"Mobile Game Design Essentials.pdf\n" +
+"Mobile Game Development with Unity.pdf\n" +
+"Mudbox 2013 Cookbook.pdf\n" +
+"Multiplayer Game Programming_ Architecting Networked Games.pdf\n" +
+"My PlayStationR Vita.pdf\n" +
+"Oculus Rift in Action.pdf\n" +
+"Physics for Game Developers, 2nd Edition.pdf\n" +
+"Physics for JavaScript Games, Animation, and Simulations_ with HTML5 Canvas.pdf\n" +
+"Players Making Decisions_ Game Design Essentials and the Art of Understanding Your Players.pdf\n" +
+"Practical Game Development with UnityR and Blendert.pdf\n" +
+"Pro Unity Game Development with C#.pdf\n" +
+"Realm of Racket.pdf\n" +
+"Rigging for Games.pdf\n" +
+"Sams Teach Yourself Game Programming in 24 Hours.pdf\n" +
+"Sams Teach Yourself UnityR Game Development in 24 Hours, Second Edition.pdf\n" +
+"Sams Teach Yourself Unreal Engine 4 Game Development in 24 Hours.pdf\n" +
+"SDL Game Development.pdf\n" +
+"Secrets of the PlayStation Portable.pdf\n" +
+"Security in Virtual Worlds, 3D Webs, and Immersive Environments.pdf\n" +
+"SFML Game Development By Example.pdf\n" +
+"Tabletop Game Design for Video Game Designers.pdf\n" +
+"The Black Art of Multiplatform Game Programming.pdf\n" +
+"The Complete Idiot's Guide to Game Theory.pdf\n" +
+"The GameMaker Standard.pdf\n" +
+"The Indie Game Developer Handbook.pdf\n" +
+"The Quest for Artificial Intelligence.pdf\n" +
+"The Ultimate Player's Guide to Minecraft, Third Edition.pdf\n" +
+"The Ultimate Player's Guide to Minecraft.pdf\n" +
+"The Web Game Developer's Cookbook_ Using JavaScript and HTML5 to Develop Games.pdf\n" +
+"Training in Virtual Worlds.pdf\n" +
+"Unity 2D Game Development Cookbook.pdf\n" +
+"Unity 3D UI Essentials.pdf\n" +
+"Unity 4 Fundamentals.pdf\n" +
+"Unity 5 for Android Essentials.pdf\n" +
+"Unity 5 Game Optimization.pdf\n" +
+"Unity 5.pdf\n" +
+"Unity Android Game Development by Example Beginner's Guide.pdf\n" +
+"Unity Character Animation with Mecanim.pdf\n" +
+"Unity for Absolute Beginners.pdf\n" +
+"Unity Game Development in 24 Hours, Sams Teach YourselfR.pdf\n" +
+"Unity in Action_ Multiplatform game development in C# with Unity 5.pdf\n" +
+"Unity Shaders and Effects Cookbook.pdf\n" +
+"Unity UI Cookbook.pdf\n" +
+"Unity Virtual Reality Projects.pdf\n" +
+"Unreal Engine Game Development Blueprints.pdf\n" +
+"Unreal Engine Game Development Cookbook.pdf\n" +
+"Unreal Engine Physics Essentials.pdf\n" +
+"Writing Interactive Music for Video Games_ A Composer's Guide.pdf\n" +
+"XBOX 360 Forensics.pdf";
+	
+	titleList = minimalize(titleList.replace(/.pdf/g, '')).split('\n');
+	
+	console.log(titleList);
+	
+	var bookList = Array.prototype.slice.call(document.getElementsByClassName("next title-block js-bit-title t-bit-link"));
+	var curBookNum = 0;
+	var curBookName = "";
+	
+	var chapterList;
+	var curChapterNum = 0;
+	
+	var newWindow = window.open("", "Test", "height = 800, width = 600");
+	
+	var notificationSound = new Audio('https://s3.amazonaws.com/freesoundeffects/mp3/mp3_458146.mp3');
+	
+	var newHTML = "" +
+		"<html>" +
+		"	<head>" +
+		"		<style>" +
+		"			div {" +
+		"				text-align: center;" +
+		"			}" +
+		"			" +
+		"			img {" +
+		"				vertical-align: middle;" +
+		"				margin: 4px;" +
+		"			}" +
+		"			" +
+		"			h2 {" +
+		"				font-size: 36px;" +
+		"			}" +
+		"			" +
+		"			h3 {" +
+		"				font-size: 32px;" +
+		"			}" +
+		"			" +
+		"			h4 {" +
+		"				font-size: 28px;" +
+		"			}" +
+		"			" +
+		"			p {" +
+		"				font-size: 18px;" +
+		"			}" +
+		"		</style>" +
+		"	</head>" +
+		"	" +
+		"	<body>" +
+		"	</body>" +
+		"</html>" +
+		"";
+	
+	window.onbeforeunload = function() {
+		/* Deinitialize */
+		newWindow.close();
+	};
+	
+	document.write(newHTML);
+	
+	function htmlToDom(htmlStr) {
+		var elem = document.createElement('html');
+		elem.innerHTML = htmlStr;
+		
+		return elem;
+	}
+	
+	function requestHTML(url, callback) {
+		var request = new XMLHttpRequest();
+		request.open("GET", url, true);
+		request.send();
+
+		request.onreadystatechange = function() {
+			if (request.readyState == 4) {
+				callback(request);
+			}
+		};
+	}
+	
+	function waitForNotificationApproval(callback) {
+		/* Keep requesting until an option is chosen */
+		if (Notification.permission === "default") {
+			Notification.requestPermission();
+			setTimeout(waitForNotificationApproval, 500);
+		} else {
+			callback();
+		}
+	}
+	
+	function processBook() {
+		console.log("Book " + curBookNum);
+		
+		if (bookList[curBookNum]) {
+			var bookLink = bookList[curBookNum].href;
+			requestHTML(bookLink, bookHtmlFetched);
+		} else {
+			new Notification("All books processed!", {
+				icon: "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/book.png",
+				body: "All books are done.",
+				tag: "myNotification"
+			});
+			
+			newWindow.close();
+			location.reload();
+		}
+	}
+	
+	function bookHtmlFetched(bookHTML) {
+		var elem = document.createElement('html');
+		elem.innerHTML = bookHTML.responseText;
+		
+		elemBody = elem.getElementsByTagName('body')[0];
+		chapterList = Array.prototype.slice.call(elemBody.getElementsByClassName("detail-toc")[0].getElementsByTagName('a'));
+		curChapterNum = 0;
+		
+		curBookName = elem.getElementsByClassName("title t-title")[0].innerText;
+		
+		if (titleList.indexOf(minimalize(curBookName)) > -1) {
+			new Notification("Book: " + curBookName + " skipped", {
+				icon: "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/book.png",
+				body: "Skipped!",
+				tag: "myNotification"
+			});
+			
+			curBookNum += 1;
+			processBook();
+			return;
+		}
+		
+		processChapter();
+	}
+	
+	function processChapter() {
+		console.log("Chapter " + curChapterNum);
+		
+		if (chapterList[curChapterNum]) {
+			if (curChapterNum === 0) {
+				new Notification("Book: " + curBookName + " (" + curBookNum + " / " + bookList.length + ")", {
+					icon: "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/book.png",
+					body: "Started processing (" + chapterList.length + " chapters)",
+					tag: "myNotification"
+				});
+			} else if (curChapterNum % 10 === 0) {
+				new Notification("Book: " + curBookName, {
+					icon: "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/book.png",
+					body: Math.ceil(curChapterNum / chapterList.length * 100) + "% (Chapter " + curChapterNum + " / " + chapterList.length + ").",
+					tag: "myNotification"
+				});
+			}
+			
+			var chapterLink = chapterList[curChapterNum].href;
+			
+			if (newWindow.location.href.split('#')[0] != chapterLink.split('#')[0]) {
+				/* Clear the document to detect when new content is loaded */
+				newWindow.document.body.outerHTML = '';
+				newWindow.location = chapterLink;
+				
+				waitForWinContents();
+			} else {
+				/* Skip all sections as they are part of the same chapter (page) */
+				console.log("Chapter is section");
+				curChapterNum += 1;
+				processChapter();
+			}
+		} else {
+			newWindow.document.write(newHTML);
+			newWindow.document.body.outerHTML = document.body.outerHTML;
+			
+			Array.prototype.slice.call(
+				newWindow.document.getElementsByClassName('annotator-outer annotator-viewer annotator-hide viewer')
+			).forEach(function(elem) {elem.parentNode.removeChild(elem);});
+			
+			Array.prototype.slice.call(
+				newWindow.document.getElementsByClassName('annotator-editor-wrapper')
+			).forEach(function(elem) {elem.parentNode.removeChild(elem);});
+			
+			Array.prototype.slice.call(
+				newWindow.document.getElementsByClassName('annotator-adder')
+			).forEach(function(elem) {elem.parentNode.removeChild(elem);});
+			
+			document.body.outerHTML = '';
+			
+			setTimeout(function() {
+				notificationSound.play();
+				
+				new Notification("Book: " + curBookName, {
+					icon: "https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/128/book.png",
+					body: "Done!",
+					tag: "myNotification"
+				});
+				
+				newWindow.document.title = curBookName;
+				
+				setTimeout(function() {
+					newWindow.print();
+					
+					setTimeout(function() {
+						curBookNum += 1;
+						processBook();
+					}, 100);
+				}, 1000);
+			}, 9000);
+		}
+	}
+	
+	function waitForWinContents() {
+		var winContent = newWindow.document.getElementsByClassName("annotator-wrapper")[0];
+		
+		if (winContent !== undefined) {
+			
+			setTimeout(function() {
+				chapterHtmlFetched(winContent);
+			}, 100);
+		} else {
+			setTimeout(waitForWinContents, 100);
+		}
+	}
+	
+	function chapterHtmlFetched(chapterHTML) {
+		document.body.outerHTML += chapterHTML.outerHTML;
+		
+		curChapterNum += 1;
+		setTimeout(processChapter, 100);
+	}
+	
+	waitForNotificationApproval(processBook);
+})();
