@@ -1,0 +1,180 @@
+var responseHTML;
+
+var request = new XMLHttpRequest();
+request.open("GET", "https://www.safaribooksonline.com/library/view/how-to-think/9781139637268/", true);
+request.send();
+
+request.onreadystatechange = function() {
+	if (request.readyState == 4) {
+		responseHTML = request.responseText;
+	}
+};
+
+---
+
+(function() {
+	function requestHTML(url, callback) {
+		var request = new XMLHttpRequest();
+		request.open("GET", url, true);
+		request.send();
+
+		request.onreadystatechange = function() {
+			if (request.readyState == 4) {
+				callback(request.responseText);
+			}
+		};
+	}
+
+	function processBookHTML(strHTML) {
+		var elem = document.createElement('html');
+		elem.innerHTML = strHTML;
+		
+		elemBody = elem.getElementsByTagName('body')[0];
+		chapterLinks = Array.prototype.slice.call(elemBody.getElementsByClassName("detail-toc")[0].getElementsByTagName('a'));
+		
+		for (var i = 0; chapterLinks[i]; i++) {
+			console.log("Chapter " + i);
+			
+			var chapterLink = chapterLinks[i].href;
+			requestHTML(chapterLink, processChapterHTML);
+		}
+	}
+	
+	function processChapterHTML(strHTML) {
+		var elem = document.createElement('html');
+		elem.innerHTML = strHTML;
+		
+		elemBody = elem.getElementsByTagName('body')[0];
+		console.log(elemBody.getElementsByClassName("visuallyhidden")[0].parentElement.innerText);
+	}
+	
+	function processBookList() {
+		var bookList = Array.prototype.slice.call(document.getElementsByClassName("next title-block js-bit-title t-bit-link"));
+		
+		for (var i = 0; bookList[i]; i++) {
+			console.log("Book " + i);
+			
+			var bookLink = bookList[i].href;
+			requestHTML(bookLink, processBookHTML);
+		}
+	}
+	
+	processBookList();
+})();
+
+---
+
+Array.prototype.slice.call(document.getElementsByClassName("annotator-wrapper")).forEach(function(elem) {console.log(elem.style)});
+
+---
+
+var intervalVar = setInterval(function() {
+var btt = document.getElementsByClassName('js-more-button showmore');
+if (btt !== undefined && btt[0] !== undefined) {
+btt[0].click();
+}
+}, 100);
+
+---
+
+function findPos(obj) {
+	var curtop = 0;
+	if (obj.offsetParent) {
+		do {
+			curtop += obj.offsetTop;
+		} while (obj = obj.offsetParent);
+		return [curtop];
+	}
+}
+	
+function scrollTo(elem) {
+	window.scroll(0, findPos(elem));
+}
+
+var bttns2 = Array.prototype.slice.call(document.getElementsByClassName('rec-fav ss-queue t-starred invalid'));
+var bttNum2 = 0;
+var intervalVar = setInterval(function() {
+	if (bttns2[bttNum2]) {
+		var btt = bttns2[bttNum2];
+		bttNum2 += 1;
+		if (btt.getAttribute('aria-label') === "Remove from Queue") {
+		} else {
+			setTimeout(function() {scrollTo(btt);}, 200);
+			btt.click();
+		}
+	} else {
+		console.log("Done");
+		clearInterval(intervalVar);
+	}
+}, 500);
+
+---
+
+function findPos(obj) {
+	var curtop = 0;
+	if (obj.offsetParent) {
+		do {
+			curtop += obj.offsetTop;
+		} while (obj = obj.offsetParent);
+		return [curtop];
+	}
+}
+	
+function scrollTo(elem) {
+	window.scroll(0, findPos(elem));
+}
+
+var bttns = Array.prototype.slice.call(document.getElementsByClassName('rec-fav ss-queue t-starred invalid'));
+var bttNum = 0;
+var intervalVar = setInterval(function() {
+	if (bttns[bttNum]) {
+		var btt = bttns[bttNum];
+		bttNum += 1;
+		if (btt.getAttribute('aria-label') === "Remove from Queue") {
+			scrollTo(btt);
+			btt.click();
+		} else {
+		}
+	} else {
+		console.log("Done");
+		clearInterval(intervalVar);
+	}
+}, 500);
+
+bttNum = 0;
+
+var intervalVar = setInterval(function() {
+	if (bttns[bttNum]) {
+		var btt = bttns[bttNum];
+		bttNum += 1;
+		if (btt.getAttribute('aria-label') === "Remove from Queue") {
+		} else {
+			scrollTo(btt);
+			btt.click();
+		}
+	} else {
+		console.log("Done");
+		clearInterval(intervalVar);
+	}
+}, 500);
+
+---
+
+function findPos(obj) {
+	var curtop = 0;
+	if (obj.offsetParent) {
+		do {
+			curtop += obj.offsetTop;
+		} while (obj = obj.offsetParent);
+		return [curtop];
+	}
+}
+	
+function scrollTo(elem) {
+	window.scroll(0, findPos(elem));
+}
+
+---
+
+var notificationSound = new Audio('https://s3.amazonaws.com/freesoundeffects/mp3/mp3_458146.mp3');
+notificationSound.play();
