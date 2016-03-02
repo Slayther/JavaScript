@@ -1,0 +1,164 @@
+function copyTextToClipboard(text) {
+	var textArea = document.createElement("textarea");
+
+	// Place in top-left corner of screen regardless of scroll position.
+	textArea.style.position = 'fixed';
+	textArea.style.top = 0;
+	textArea.style.left = 0;
+
+	// Ensure it has a small width and height. Setting to 1px / 1em
+	// doesn't work as this gives a negative w/h on some browsers.
+	textArea.style.width = '2em';
+	textArea.style.height = '2em';
+
+	// We don't need padding, reducing the size if it does flash render.
+	textArea.style.padding = 0;
+
+	// Clean up any borders.
+	textArea.style.border = 'none';
+	textArea.style.outline = 'none';
+	textArea.style.boxShadow = 'none';
+
+	// Avoid flash of white box if rendered for any reason.
+	textArea.style.background = 'transparent';
+
+	textArea.value = text;
+
+	document.body.appendChild(textArea);
+
+	textArea.select();
+
+	try {
+		var successful = document.execCommand('copy');
+		var msg = successful ? 'successful' : 'unsuccessful';
+		console.log('Copying text command was ' + msg);
+	} catch (err) {
+		console.log('Oops, unable to copy');
+	}
+
+	document.body.removeChild(textArea);
+}
+
+function addCopyButton() {
+	var button = document.createElement('button');
+	button.innerHTML = "Copy to clipboard";
+	button.className = "copy-to-clipboard";
+	
+	button.addEventListener('click', function(event) {
+		copyTextToClipboard('HI');
+	});
+	document.body.appendChild(button);
+}
+
+addCopyButton();
+
+---
+
+Search for elements
+
+javascript: (function() {
+var first = prompt("Upisi broj prve epizode koju oces skinuti");
+var last = prompt("Upisi broj zadnje epizode koju oces skinuti");
+
+var linkList = document.getElementsByClassName("yt-uix-sessionlink yt-uix-tile-link  spf-link  yt-ui-ellipsis yt-ui-ellipsis-2");
+var videoLinkList = [];
+var n = 0;
+
+for (var i = linkList.length - 1; i >= 0; i--) {
+	var videoNum = Number(linkList[i].innerHTML.split(' ')[2]);
+	if (videoNum >= first && videoNum <= last) {
+		var videoUrl = linkList[i].href;
+		videoLinkList[n++] = videoUrl;
+	}
+}
+
+var linkDiv = document.createElement('div');
+linkDiv.innerHTML = videoLinkList.join('<br>');
+
+linkDiv.style.position = "fixed";
+linkDiv.style.width = "50%";
+linkDiv.style.height = "50%";
+linkDiv.style.top = "25%";
+linkDiv.style.left = "25%";
+linkDiv.style.backgroundColor = "white";
+
+linkDiv.style.textAlign = "center";
+
+document.body.appendChild(linkDiv);
+})();
+
+---
+
+Copy to clipboard
+
+function addTextAreaAndButton() {
+	var copyTextArea = document.createElement('textArea');
+	copyTextArea.innerHTML = "Text to copy";
+	copyTextArea.className = "copy-to-clipboard";
+	
+	//left: 50%;
+	//position: relative;
+	
+	var copyButton = document.createElement('button');
+	copyButton.innerHTML = "Copy to clipboard";
+	copyButton.className = "copy-to-clipboard";
+	
+	//left: 50%;
+	//position: relative;
+	
+	copyButton.addEventListener('click', function(event) {
+		console.log("Clicked");
+		copyTextArea.select();
+		document.execCommand('copy');
+	});
+	
+	var copyDiv = document.createElement('div');
+	
+	copyDiv.style.position = "fixed";
+	copyDiv.style.width = "100%";
+	copyDiv.style.top = "50px";
+	
+	copyDiv.appendChild(copyTextArea);
+	copyDiv.appendChild(copyButton);
+	
+	document.body.appendChild(copyDiv);
+}
+
+addTextAreaAndButton();
+
+---
+
+var videoButtonList = document.getElementsByClassName('yt-lockup-dismissable');
+
+for (var i = 0; videoButtonList[i]; i++) {
+	videoButtonList[i].onmouseenter = function(ev) {
+		ev.target.style.backgroundColor = "rgba(0, 206, 0, 0.3)";
+		ev.target.style.outline = "7px solid rgba(0, 206, 0, 0.3)";
+	}
+	
+	videoButtonList[i].onmouseleave = function(ev) {
+		ev.target.style.backgroundColor = "";
+		ev.target.style.outline = "";
+	}
+}
+
+---
+
+var videoButtonList = document.getElementsByClassName('yt-lockup-dismissable');
+
+for (var i = 0; videoButtonList[i]; i++) {
+	videoButtonList[i].outerHTML = "<div style = \"opacity: .7; background-color: rgba(0,128,0,0.5); outline: 7px solid rgba(0,128,0,0.5);\">" + videoButtonList[i].outerHTML + "</div>";
+	
+	videoButtonList[i].style.position = "relative";
+	videoButtonList[i].style.zIndex = -1;
+	
+	videoButtonList[i].getElementsByTagName("h3")[0].getElementsByClassName("yt-uix-sessionlink")[0].style.backgroundColor = "transparent";
+	
+	videoButtonList[i].onmouseenter = function(ev) {
+		
+	}
+	
+	videoButtonList[i].onmouseleave = function(ev) {
+		
+	}
+}
