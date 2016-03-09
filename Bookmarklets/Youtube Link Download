@@ -1,0 +1,381 @@
+javascript: (function() {
+	function getJQuery(callback) {
+		console.log("Loading JQuery...");
+		
+		var s = document.createElement('script');
+		s.type = "text/javascript";
+		s.src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js";
+		document.head.appendChild(s);
+		
+		waitForJQuery(callback);
+	}
+
+	function waitForJQuery(callback) {
+		console.log("Waiting...");
+		if (typeof $ === 'undefined' || typeof $.getJSON === 'undefined') {
+			setTimeout(function() {
+				waitForJQuery(callback);
+			}, 200);
+		} else {
+			console.log("JQuery Loaded.");
+			callback();
+		}
+	}
+
+	function addStyleElem() {
+		document.body.innerHTML = '';
+		document.head.innerHTML = '';
+		
+		var styleElem = document.createElement('style');
+		document.head.appendChild(styleElem);
+
+		styleElem.outerHTML = [
+			"<style type = 'text/css'>",
+			"  body {",
+			"    background-color: rgb(142, 175, 210);",
+			"  }",
+			"  ",
+			"  .div-cell {",
+			"    height: 300px;",
+			"    width: 256px;",
+			"    word-wrap: break-word;",
+			"    text-align: center;",
+			"    float: left;",
+			"    border: 1px dotted black;",
+			"    margin: 1px;",
+			"  }",
+			"  ",
+			"  .div-row {",
+			"    margin: 5px;",
+			"    color: white;",
+			"    text-shadow:",
+			"      -1px -1px 0 rgba(0, 0, 0, 0.3),",
+			"      1px -1px 0 rgba(0, 0, 0, 0.3),",
+			"      -1px 1px 0 rgba(0, 0, 0, 0.3),",
+			"      1px 1px 0 rgba(0, 0, 0, 0.3);",
+			"  }",
+			"  ",
+			"  img {",
+			"    border: 2px solid rgba(0, 0, 0, 0.2);",
+			"    width: 128px;",
+			"    height: 128px;",
+			"  }",
+			"  ",
+			"  .done-button {",
+			"    background-color: #4CAF50;",
+			"    position: fixed;",
+			"    bottom: 5px;",
+			"    right: 10px;",
+			"    color: white;",
+			"    padding: 4px 64px;",
+			"    text-align: center;",
+			"    font-size: 16px;",
+			"    border-radius: 10px;",
+			"  }",
+			"  ",
+			"  .links-text {",
+			"    position: fixed;",
+			"    bottom: 5px;",
+			"    left: 5px;",
+			"    resize: none;",
+			"    display: none;",
+			"  }",
+			"  ",
+			"  .links-text-btt {",
+			"    background-color: #4CAF50;",
+			"    position: fixed;",
+			"    bottom: 5px;",
+			"    left: 10px;",
+			"    color: white;",
+			"    padding: 4px 64px;",
+			"    text-align: center;",
+			"    font-size: 16px;",
+			"    border-radius: 10px;",
+			"  }",
+			"  ",
+			"  .links-text-copy-btt {",
+			"    background-color: #4CAF50;",
+			"    display: none;",
+			"    position: fixed;",
+			"    bottom: 164px;",
+			"    left: 10px;",
+			"    color: white;",
+			"    padding: 4px 64px;",
+			"    text-align: center;",
+			"    font-size: 16px;",
+			"    border-radius: 10px;",
+			"  }",
+			"  ",
+			"  .links-copied-note {",
+			"    position: fixed;",
+			"    bottom: 7px;",
+			"    left: 448px;",
+			"    color: rgba(241, 136, 24, 0);",
+			"  }",
+			"</style>"
+		].join('\n');
+	}
+	
+	function addCellContents(imgSrc, videoTitle, videoAuthor, videoDuration, videoLink) {
+		var cellElem = document.createElement('div');
+		document.body.appendChild(cellElem);
+		
+		cellElem.innerHTML = "" +
+		"<img class = 'div-row' src='" + imgSrc + "'>" +
+		"<div class = 'div-row'>" +
+		"  <a class='video-link-anchor' href='" + videoLink + "'></a>" +
+		"  <div><b>Naziv</b>:<br>" + videoTitle + "</div>" +
+		"  <div><b>Autor</b>:<br>" + videoAuthor + "</div>" +
+		"  <div><b>Trajanje</b>: " + videoDuration + "</div>" +
+		"</div>";
+		
+		cellElem.className = 'div-cell';
+		
+		cellElem.onmouseenter = function(ev) {
+			if (!multiSelection) {
+				if (selectedLinks.indexOf(videoLink) == -1) {
+					cellElem.style.backgroundColor = 'rgba(173, 157, 77, 0.53)';
+				} else {
+					cellElem.style.backgroundColor = 'rgba(173, 77, 77, 0.53)';
+				}
+			} else {
+				cellElem.style.backgroundColor = 'rgba(163, 77, 173, 0.53)';
+			}
+		};
+		
+		cellElem.onmouseleave = function(ev) {
+			if (selectedLinks.indexOf(videoLink) == -1) {
+				cellElem.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+			} else {
+				cellElem.style.backgroundColor = 'rgba(77, 173, 83, 0.35)';
+			}
+		};
+		
+		cellElem.onmouseup = function(ev) {
+			if (!multiSelection) {
+				if (selectedLinks.indexOf(videoLink) == -1) {
+					selectedLinks.push(videoLink);
+					
+					linksTextArea.innerHTML += "\n" + videoLink;
+					
+					cellElem.style.backgroundColor = 'rgba(173, 77, 77, 0.53)';
+				} else {
+					selectedLinks.splice(selectedLinks.indexOf(videoLink), 1);
+					
+					linksTextArea.innerHTML = linksTextArea.innerHTML.substring(0, linksTextArea.innerHTML.indexOf(videoLink)) +
+						linksTextArea.innerHTML.substring(
+							linksTextArea.innerHTML.indexOf(videoLink) + 1 + videoLink.length
+						);
+					
+					cellElem.style.backgroundColor = 'rgba(173, 157, 77, 0.53)';
+				}
+				linksTextArea.innerHTML = linksTextArea.innerHTML.replace(/^\n/gm, '');
+			} else {
+				var videoLinkElems = Array.prototype.slice.call(document.getElementsByClassName('div-cell'));
+				window.getSelection().removeAllRanges();
+				
+				var lastVideoLink = selectedLinks[selectedLinks.length - 1];
+				
+				var videoIndex1;
+				var videoIndex2;
+				
+				for (var i = 0; i < videoLinkElems.length; i++) {
+					var curVideoLink = videoLinkElems[i].getElementsByClassName('video-link-anchor')[0].href;
+					
+					if (curVideoLink == lastVideoLink) {
+						videoIndex1 = i;
+					} else if (curVideoLink == videoLink) {
+						videoIndex2 = i;
+					}
+				}
+				
+				if (videoIndex1 > videoIndex2) {
+					var temp = videoIndex1;
+					videoIndex1 = videoIndex2;
+					videoIndex2 = temp;
+				}
+				
+				for (var i = videoIndex1; i < videoIndex2 + 1; i++) {
+					var videoElem_i = videoLinkElems[i];
+					var videoLink_i = videoElem_i.getElementsByClassName('video-link-anchor')[0].href;
+					
+					if (selectedLinks.indexOf(videoLink_i) == -1) {
+						selectedLinks.push(videoLink_i);
+						
+						linksTextArea.innerHTML += "\n" + videoLink_i;
+						
+						videoElem_i.style.backgroundColor = 'rgba(77, 173, 83, 0.35)';
+					}
+				}
+			}
+		};
+	}
+
+	function downloadTextFile(text, name) {
+		var link = document.createElement("a");
+		link.download = name;
+		link.href = "data:text/html," + text;
+		link.click();
+	}
+
+	function addNextButton() {
+		var nextButton = document.createElement('button');
+		document.body.appendChild(nextButton);
+		
+		nextButton.className = 'done-button';
+		nextButton.innerHTML = 'Dalje';
+		
+		nextButton.onclick = function() {
+			var batText = [
+				"for %%x in (",
+				selectedLinks.join(' '),
+				") do (youtube-dl -f 18 -c -o \"C:\\Users\\Raketa\\Desktop\\Zika\\%%(title)s.%%(ext)s\" -i %%x)"
+			].join('');
+			
+			downloadTextFile(batText, 'YoutubeDownload.bat');
+		};
+	}
+	
+	function fadeCopyNote(copyTextNote) {
+		var curColor = copyTextNote.style.color;
+		
+		var alpha = Number(curColor.match(/([+-]?\d+(\.\d+)?)\)/)[1]);
+		alpha -= 0.05;
+		
+		if (alpha <= 0) {
+			copyTextNote.style.color = curColor.replace(/([+-]?\d+(\.\d+)?)\)/, '0)');
+		} else {
+			curColor = curColor.replace(/[+-]?\d+(\.\d+)?\)/, alpha.toString() + ')');
+			copyTextNote.style.color = curColor;
+			
+			setTimeout(function() {
+				fadeCopyNote(copyTextNote);
+			}, 100);
+		}
+	}
+	
+	function addTextLinksArea() {
+		linksTextArea = document.createElement('textarea');
+		document.body.appendChild(linksTextArea);
+		linksTextArea.className = 'links-text';
+		
+		linksTextArea.rows = 10;
+		linksTextArea.cols=70;
+		
+		var linksBtt = document.createElement('button');
+		document.body.appendChild(linksBtt);
+		
+		linksBtt.className = 'links-text-btt';
+		linksBtt.innerHTML = 'Prikazi linkove';
+		
+		var copyLinksBtt = document.createElement('button');
+		document.body.appendChild(copyLinksBtt);
+		
+		copyLinksBtt.className = 'links-text-copy-btt';
+		copyLinksBtt.innerHTML = 'Kopiraj linkove';
+		
+		var copyTextNote = document.createElement('div');
+		document.body.appendChild(copyTextNote);
+		
+		copyTextNote.className = 'links-copied-note';
+		copyTextNote.innerHTML = 'Kopirano!';
+		
+		linksBtt.onclick = function() {
+			if (linksTextArea.style.display != 'block') {
+				linksTextArea.style.display = 'block';
+				
+				linksBtt.style.left = '290px';
+				linksBtt.style.bottom = '164px';
+				linksBtt.innerHTML = 'Sakrij linkove';
+				
+				copyLinksBtt.style.display = 'block';
+			} else {
+				linksTextArea.style.display = 'none';
+				
+				linksBtt.style.left = '';
+				linksBtt.style.bottom = '';
+				linksBtt.innerHTML = 'Prikazi linkove';
+				
+				copyLinksBtt.style.display = '';
+			}
+		};
+		
+		copyLinksBtt.onclick = function() {
+			linksTextArea.select();
+			document.execCommand('copy');
+			
+			copyTextNote.style.color = window.getComputedStyle(copyTextNote).color.replace(/[+-]?\d+(\.\d+)?\)/, '0.95)');
+			setTimeout(function() {
+				fadeCopyNote(copyTextNote);
+			}, 2000);
+			
+			setTimeout(function() {
+				window.getSelection().removeAllRanges();
+			}, 50);
+		};
+	}
+
+	function nextCellContent(arr, ind) {
+		/*
+		yt-uix-sessionlink yt-ui-ellipsis yt-ui-ellipsis-2 spf-link
+		yt-uix-sessionlink spf-link
+		yt-uix-sessionlink yt-uix-tile-link spf-link yt-ui-ellipsis yt-ui-ellipsis-2
+		yt-uix-sessionlink yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 spf-link
+		*/
+		$.getJSON('https://noembed.com/embed', {
+			format: 'json',
+			url: arr[ind].href
+		}, function (data) {
+			addCellContents(data.thumbnail_url, data.title, data.author_name, "00:00", data.url);
+			
+			if (ind < arr.length - 1) {
+				setTimeout(function() {
+					nextCellContent(arr, ind + 1);
+				}, 10);
+			}
+		});
+	}
+
+	function getAnchorElems() {
+		var linkList = [];
+		
+		anchorElems = Array.prototype.slice.call(
+			document.getElementsByTagName('a')
+		).filter(function(elem, ind, arr) {
+			if (linkList.indexOf(elem.href) == -1) {
+				if (elem.href.indexOf('watch') > -1) {
+					linkList.push(elem.href);
+					return true;
+				}
+			}
+			return false;
+		});
+		
+		addStyleElem();
+		
+		addNextButton();
+		addTextLinksArea();
+		
+		document.onkeydown = function(e) {
+			if (e.shiftKey && !multiSelection) {
+				multiSelection = true;
+			}
+		};
+		document.onkeyup = function(e) {
+			if (!e.shiftKey && multiSelection) {
+				multiSelection = false;
+			}
+		};
+		
+		nextCellContent(anchorElems, 0);
+	}
+	
+	var anchorElems;
+	var linksTextArea;
+	
+	var multiSelection = false;
+	
+	var selectedLinks = [];
+	
+	getJQuery(getAnchorElems);
+})();
